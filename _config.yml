@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: Hyun Kang
 subtitle: ''
-description: ''
+description: 'A personal webpage of Hyun Kang'
 keywords:
-author: John Doe
+author: Hyun Kang
 language: en
 timezone: ''
 
@@ -45,14 +45,16 @@ relative_link: false
 future: true
 syntax_highlighter: highlight.js
 highlight:
-  line_number: true
+  enable: false #set it to false
+  line_number: false
   auto_detect: false
   tab_replace: ''
-  wrap: true
+  wrap: false #false
   hljs: false
 prismjs:
+  enable: true #set it to true
   preprocess: true
-  line_number: true
+  line_number: true #optional
   tab_replace: ''
 
 # Home page setting
@@ -96,7 +98,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: minima
+theme: sindoro
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

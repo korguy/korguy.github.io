@@ -1,0 +1,43 @@
+#title in header
+title: "Hi Folks."
+
+#main info
+#owner
+# owner: "Halo, saya Adi Sakti Jrs."
+# info: "Seorang pelajar dan pengembang web"
+# #description
+# desc: "Saya menyukai desain, novel, dan pengembangan web. Blog ini merupakan tempat saya membagikan tulisan acak, opini, dan dokumentasi pribadi ketika sedang belajar hal baru."
+
+#menu
+menu:
+  # Catatan: /archives
+  # Tentang: /tentang
+  Works: /work
+  Blog: /archives
+  About: /about
+  
+  
+
+#index/main page max show posts (in number)
+max_post: 2
+
+# social profile at the footer/bottom
+# place: https://www.google.com/search?q=kendal+jawa+tengah
+github: https://github.com/korguy
+linkedin: https://www.linkedin.com/in/kdkh1125/
+google: https://scholar.google.com/citations?view_op=list_works&hl=en&user=lZ7oNC8AAAAJ
+# instagram: https://www.instagram.com/adisaktijrs/
+# twitter: https://www.codewars.com/users/adisaktijrs/
+
+# js
+nanobar: /js/nanobar.min.js
+
+# favicon
+favicon: /images/favicon.png
+
+article:
+  thumbnail: true
+
+# DISQUS comments (sign up to Disqus to get disqus_shortname)
+disqus_enabled: true
+disqus_shortname: hyun-kang

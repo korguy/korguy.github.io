@@ -1,0 +1,19 @@
+body.darkmode {
+  background: #1c1c28;
+  color: #efefef;
+}
+
+.darkmode h1,.darkmode h2,.darkmode h3,.darkmode h4,.darkmode h5,.darkmode h6 {
+  color: #eeeeee;
+}
+
+.darkmode svg {
+  fill: gray;
+}
+
+.darkmode .portfolio-subtitle {
+  color: #fdff77
+}
+/* .darkmode highlight {
+  background: linear-gradient(to top, #00ADB5, 50%, transparent 50%);
+} */
