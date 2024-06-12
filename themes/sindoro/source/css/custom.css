@@ -92,9 +92,9 @@ blockquote {
     border-left: 8px solid #00ADB5;
     margin: 1.5em 0px;
     padding: 1.3em 20px 1px 20px;
-    font-size: 1.3rem;
-    font-weight: bold;
-    font-style: italic;
+    font-size: 1.2rem;
+    /* font-weight: bold;
+    font-style: italic; */
 }
 
 blockquote footer {
