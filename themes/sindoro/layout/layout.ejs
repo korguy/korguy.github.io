@@ -15,13 +15,13 @@
 
   var title = title = config.title;
   if (is_archive()){
-    title = 'Semua Tulisan - ' + config.author;
+    title = 'Archives - ' + config.author;
   } else if (is_post()){
     title = page.title;
   } else if (is_page()){
     title = page.title + ' - ' + config.author;
   } else if (is_tag()){
-    title = 'Tulisan Tentang ' + page.tag;
+    title = 'Tags ' + page.tag;
   }
   %>
   <title><%= title %></title>
