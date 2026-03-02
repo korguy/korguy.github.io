@@ -43,7 +43,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-syntax_highlighter: highlight.js
+syntax_highlighter: prismjs
 highlight:
   enable: false #set it to false
   line_number: false
@@ -102,5 +102,15 @@ theme: sindoro
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
+search:
+  path: search.json
+  field: all
+  content: true
+  format: raw
+
+marked:
+  math:
+    enabled: true
+
 deploy:
   type: ''

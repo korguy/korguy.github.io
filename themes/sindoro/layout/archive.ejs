@@ -1,17 +1,40 @@
 
-<h2 class="mb-4">Archives</h2>
+<h2 class="mb-4">Posts</h2>
 
-<!-- <div class="row">
-  <div class="col-lg-3">
-    <p class="pb-0 mb-0"><strong>Pinned note 📌</strong></p>
-  </div>
-  <div class="col-lg-9 mb-3">
-    <a href="https://adisaktijrs.github.io/2020/10/01/Bagaimana-Fanatisme-Melumpuhkan-Teknisi-Perangkat-Lunak/" ><strong>Bagaimana Fanatisme Melumpuhkan Teknisi Perangkat Lunak</strong></a>
-  </div>
-</div> -->
+<%
+  var allTags = [];
+  site.tags.forEach(function(tag) {
+    allTags.push(tag.name);
+  });
+  allTags.sort();
+%>
 
-<% page.posts.each(function(post) { %>
-    <article>
+<% if (allTags.length > 0) { %>
+<div class="tag-filter" id="tagFilter">
+  <div class="tag-filter-header">
+    <div class="tag-chips-wrapper" id="tagChipsWrapper">
+      <div class="tag-chips" id="tagChips">
+        <% allTags.forEach(function(tag) { %>
+          <button class="tag-chip" data-tag="<%- tag %>"><%- tag %></button>
+        <% }) %>
+      </div>
+    </div>
+    <button class="tag-clear-btn" id="tagClearBtn">Clear</button>
+  </div>
+  <% if (allTags.length > 6) { %>
+    <button class="tag-expand-btn" id="tagExpandBtn">Show all tags (<%= allTags.length %>)</button>
+  <% } %>
+</div>
+<% } %>
+
+<div id="postList">
+<% page.posts.each(function(post) {
+    var postTags = [];
+    if (post.tags && post.tags.length) {
+      post.tags.each(function(tag) { postTags.push(tag.name); });
+    }
+%>
+    <article data-tags='<%- JSON.stringify(postTags) %>'>
       <div class="row">
         <div class="col-lg-3">
           <p class="pb-0 mb-0"><%- full_date(post.date, 'll') %></p>
@@ -22,4 +45,89 @@
       </div>
     </article>
 <% }) %>
-<%- partial('partial/pagination', {type: 'page'}) %>
+</div>
+
+<div class="tag-no-results" id="tagNoResults">No matching posts.</div>
+
+<div id="paginationWrapper">
+  <%- partial('partial/pagination', {type: 'page'}) %>
+</div>
+
+<script>
+(function() {
+  var selected = new Set();
+  var chips = document.querySelectorAll('.tag-chip');
+  var articles = document.querySelectorAll('#postList article');
+  var clearBtn = document.getElementById('tagClearBtn');
+  var noResults = document.getElementById('tagNoResults');
+  var pagination = document.getElementById('paginationWrapper');
+  var chipsWrapper = document.getElementById('tagChipsWrapper');
+  var expandBtn = document.getElementById('tagExpandBtn');
+
+  function filterPosts() {
+    var visibleCount = 0;
+    articles.forEach(function(article) {
+      if (selected.size === 0) {
+        article.style.display = '';
+        visibleCount++;
+      } else {
+        var tags = JSON.parse(article.getAttribute('data-tags'));
+        var match = tags.some(function(t) { return selected.has(t); });
+        article.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      }
+    });
+
+    noResults.style.display = (selected.size > 0 && visibleCount === 0) ? 'block' : 'none';
+    clearBtn.style.display = selected.size > 0 ? 'inline-block' : 'none';
+    if (pagination) {
+      pagination.style.display = selected.size > 0 ? 'none' : '';
+    }
+  }
+
+  chips.forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      var tag = this.getAttribute('data-tag');
+      if (selected.has(tag)) {
+        selected.delete(tag);
+        this.classList.remove('active');
+      } else {
+        selected.add(tag);
+        this.classList.add('active');
+      }
+      filterPosts();
+    });
+  });
+
+  if (clearBtn) {
+    clearBtn.style.display = 'none';
+    clearBtn.addEventListener('click', function() {
+      selected.clear();
+      chips.forEach(function(chip) { chip.classList.remove('active'); });
+      filterPosts();
+    });
+  }
+
+  if (expandBtn && chipsWrapper) {
+    var collapsed = true;
+    // Check if overflow exists after render
+    setTimeout(function() {
+      var inner = document.getElementById('tagChips');
+      if (inner.scrollHeight <= chipsWrapper.clientHeight + 4) {
+        expandBtn.style.display = 'none';
+      }
+    }, 50);
+
+    expandBtn.addEventListener('click', function() {
+      collapsed = !collapsed;
+      if (collapsed) {
+        chipsWrapper.classList.remove('expanded');
+        expandBtn.textContent = 'Show all tags (' + chips.length + ')';
+      } else {
+        chipsWrapper.classList.add('expanded');
+        expandBtn.textContent = 'Collapse';
+      }
+    });
+  }
+})();
+</script>

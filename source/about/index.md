@@ -3,11 +3,11 @@ title: About
 date: 2025-03-03 12:00:00
 ---
 <div class="text-center mb-4">
-  <img src="/images/profile.JPG" alt="adisaktijrs" width="200" height="200" style="border-radius: 50%;"  />
+  <img src="/images/profile.JPG" alt="adisaktijrs" width="200" height="200" style="border-radius: 50%; margin-top: 3rem"  />
 </div>
 
 
-Hi 👋, my name is Hyun Kang. I received a Master's degree in Computer Science from Yonsei University, advised by <a href="https://scholar.google.com/citations?user=4id34ogAAAAJ&hl=ko\">Prof. In-Kwon Lee</a>. Before joining graduate school, I received a Bachelor’s degree in Computer Science from Yonsei University.
+Hi 👋, my name is Hyun Kang. I'm currently working at <a href="https://www.clovirtualfashion.com/">CLO Virtual Fashion</a> as a Machine Learning Engineer. Before joining CLO, I received a Master's degree in Computer Science advised by <a href="https://scholar.google.com/citations?user=4id34ogAAAAJ&hl=ko\">Prof. In-Kwon Lee</a> and a Bachelor’s degree in Computer Science from Yonsei University.
 <br/>
 👀 My research focuses on 3D reconstruction and generative models, with a strong belief in the pervasive impact of large model priors. In 2025, I see AI agents and reasoning frameworks, leveraging LLMs as crucial building blocks, as holding the most significant promise. I'm dedicated to delving deeper into these areas.
 </br>
