@@ -1,9 +1,7 @@
 <% if (theme.disqus_enabled && theme.disqus_shortname){ %>
-  <hr>
-<section id="comments" class="mt-2 mb-3 text-center">
-
+<section id="comments" class="comments">
   <div id="disqus_thread">
-    <button href="#" type="button" class="btn btn-secondary" onclick="loadDisqus();return false;">Leave Comments</button>
+    <button type="button" class="pill glass" onclick="loadDisqus();return false;">Leave a comment</button>
   </div>
 
   <script>
@@ -26,7 +24,6 @@
         (d.head || d.body).appendChild(s);
       }
     }
-
   </script>
   <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>

@@ -1,0 +1,13 @@
+<ul class="post-list" id="postList">
+  <% posts.each(function (post) {
+    var tags = [];
+    if (post.tags && post.tags.length) post.tags.each(function (t) { tags.push(t.name); });
+  %>
+  <li data-tags='<%- JSON.stringify(tags) %>'>
+    <a class="post-row" href="<%- url_for(post.path) %>">
+      <span class="post-row-title"><%- post.title %></span>
+      <time datetime="<%= date_xml(post.date) %>"><%= date(post.date, 'MMM D, YYYY') %></time>
+    </a>
+  </li>
+  <% }) %>
+</ul>

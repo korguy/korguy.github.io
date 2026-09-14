@@ -1,0 +1,64 @@
+# Entries for the Work page, newest first. Grouped by `year` in themes/sindoro/layout/work.ejs.
+
+- year: 2026
+  title: "다음역은: 실시간 지하철 위치 (iOS App)"
+  url: https://korguy.github.io/SubwayNowLanding/
+  image: /images/subwaynow.png
+  authors: [Hyun Kang]
+  venue: Project
+
+- year: 2025
+  title: "Tradinsight: Automated Crypto Trading Agent"
+  url: /work/tradinsight
+  image: /images/tradinsight.jpeg
+  authors: [Hyun Kang]
+  venue: Project
+
+- year: 2024
+  title: "약지기: 우리 부모님의 건강을 지키는 의약품 정보의 창"
+  url: /work/supplements
+  image: /images/supplements.jpeg
+  authors: [Hyun Kang]
+  venue: "Project: Contest (Awarded)"
+
+- year: 2023
+  title: Semantic Guidance Tuning for Text-To-Image Diffusion Models
+  url: /work/concept_diffusion
+  image: /images/concept_diffusion_teaser.jpeg
+  authors: [Hyun Kang, Dohae Lee, Myungjin Shin, In-Kwon Lee]
+  venue: arXiv 2023
+
+- year: 2023
+  title: "ClothCombo: Modeling Inter-Cloth Interaction for Draping Multi-Layered Clothes"
+  url: /work/cloth_combo
+  image: /images/clothcombo_teaser.jpeg
+  authors: [Dohae Lee, Hyun Kang, In-Kwon Lee]
+  venue: SIGGRAPH Asia 2023, Journal
+
+- year: 2023
+  title: "V Body: 3D Body Shape/Muscle Growth Analyzer"
+  url: /work/vbody
+  image: /images/vbody_teaser.jpeg
+  authors: [Hyun Kang, Brian Cho, Dohae Lee, Sangbin Jeon, Chaehyun Kim, In-Kwon Lee]
+  venue: "Project: Startup"
+
+- year: 2023
+  title: "Metown: 3D Virtual Fitting"
+  url: /work/metown
+  image: /images/metown.jpg
+  authors: [Sangbin Jeon, Dohae Lee, Hyun Kang]
+  venue: "Project: Startup"
+
+- year: 2022
+  title: Designing and Prototyping a Full-Body 3D Scanner
+  url: /work/scanner
+  image: /images/3d_scanner_teaser.jpeg
+  authors: [Hyun Kang]
+  venue: Project
+
+- year: 2022
+  title: Part-Aware 3D Reconstruction of a Clothed Avatar from a Single Image
+  url: /work/avatar
+  image: /images/avatar.jpg
+  authors: [Hyun Kang, Chang-Seok Song, Kyu-Chul Shim]
+  venue: Project

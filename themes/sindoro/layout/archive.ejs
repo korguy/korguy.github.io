@@ -1,133 +1,61 @@
-
-<h2 class="mb-4">Posts</h2>
-
 <%
   var allTags = [];
-  site.tags.forEach(function(tag) {
-    allTags.push(tag.name);
-  });
+  site.tags.forEach(function (tag) { allTags.push(tag.name); });
   allTags.sort();
 %>
-
-<% if (allTags.length > 0) { %>
-<div class="tag-filter" id="tagFilter">
-  <div class="tag-filter-header">
-    <div class="tag-chips-wrapper" id="tagChipsWrapper">
-      <div class="tag-chips" id="tagChips">
-        <% allTags.forEach(function(tag) { %>
-          <button class="tag-chip" data-tag="<%- tag %>"><%- tag %></button>
-        <% }) %>
-      </div>
+<div class="container">
+  <header class="page-head">
+    <h1 class="page-title">Posts</h1>
+    <% if (allTags.length > 0) { %>
+    <div class="chips" role="group" aria-label="Filter by tag">
+      <button class="chip is-active" type="button" data-tag="">All</button>
+      <% allTags.forEach(function (tag) { %>
+      <button class="chip" type="button" data-tag="<%= tag %>"><%- tag %></button>
+      <% }) %>
     </div>
-    <button class="tag-clear-btn" id="tagClearBtn">Clear</button>
+    <% } %>
+  </header>
+
+  <%- partial('partial/post-list', {posts: page.posts}) %>
+  <p class="empty" id="tagNoResults" hidden>No posts with these tags.</p>
+
+  <div id="paginationWrapper">
+    <%- partial('partial/pagination') %>
   </div>
-  <% if (allTags.length > 6) { %>
-    <button class="tag-expand-btn" id="tagExpandBtn">Show all tags (<%= allTags.length %>)</button>
-  <% } %>
-</div>
-<% } %>
-
-<div id="postList">
-<% page.posts.each(function(post) {
-    var postTags = [];
-    if (post.tags && post.tags.length) {
-      post.tags.each(function(tag) { postTags.push(tag.name); });
-    }
-%>
-    <article data-tags='<%- JSON.stringify(postTags) %>'>
-      <div class="row">
-        <div class="col-lg-3">
-          <p class="pb-0 mb-0"><%- full_date(post.date, 'll') %></p>
-        </div>
-        <div class="col-lg-9 mb-3">
-          <a href="<%- url_for(post.path) %>" ><%- post.title %></a>
-        </div>
-      </div>
-    </article>
-<% }) %>
-</div>
-
-<div class="tag-no-results" id="tagNoResults">No matching posts.</div>
-
-<div id="paginationWrapper">
-  <%- partial('partial/pagination', {type: 'page'}) %>
 </div>
 
 <script>
-(function() {
+(function () {
   var selected = new Set();
-  var chips = document.querySelectorAll('.tag-chip');
-  var articles = document.querySelectorAll('#postList article');
-  var clearBtn = document.getElementById('tagClearBtn');
+  var chips = document.querySelectorAll('.chip');
+  var rows = document.querySelectorAll('#postList li');
   var noResults = document.getElementById('tagNoResults');
   var pagination = document.getElementById('paginationWrapper');
-  var chipsWrapper = document.getElementById('tagChipsWrapper');
-  var expandBtn = document.getElementById('tagExpandBtn');
 
   function filterPosts() {
-    var visibleCount = 0;
-    articles.forEach(function(article) {
-      if (selected.size === 0) {
-        article.style.display = '';
-        visibleCount++;
-      } else {
-        var tags = JSON.parse(article.getAttribute('data-tags'));
-        var match = tags.some(function(t) { return selected.has(t); });
-        article.style.display = match ? '' : 'none';
-        if (match) visibleCount++;
-      }
+    var visible = 0;
+    rows.forEach(function (row) {
+      var tags = JSON.parse(row.getAttribute('data-tags'));
+      var match = selected.size === 0 || tags.some(function (t) { return selected.has(t); });
+      row.hidden = !match;
+      if (match) visible++;
     });
-
-    noResults.style.display = (selected.size > 0 && visibleCount === 0) ? 'block' : 'none';
-    clearBtn.style.display = selected.size > 0 ? 'inline-block' : 'none';
-    if (pagination) {
-      pagination.style.display = selected.size > 0 ? 'none' : '';
-    }
+    chips.forEach(function (c) {
+      var tag = c.getAttribute('data-tag');
+      c.classList.toggle('is-active', tag ? selected.has(tag) : selected.size === 0);
+    });
+    noResults.hidden = visible > 0;
+    pagination.hidden = selected.size > 0;
   }
 
-  chips.forEach(function(chip) {
-    chip.addEventListener('click', function() {
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
       var tag = this.getAttribute('data-tag');
-      if (selected.has(tag)) {
-        selected.delete(tag);
-        this.classList.remove('active');
-      } else {
-        selected.add(tag);
-        this.classList.add('active');
-      }
+      if (!tag) selected.clear();
+      else if (selected.has(tag)) selected.delete(tag);
+      else selected.add(tag);
       filterPosts();
     });
   });
-
-  if (clearBtn) {
-    clearBtn.style.display = 'none';
-    clearBtn.addEventListener('click', function() {
-      selected.clear();
-      chips.forEach(function(chip) { chip.classList.remove('active'); });
-      filterPosts();
-    });
-  }
-
-  if (expandBtn && chipsWrapper) {
-    var collapsed = true;
-    // Check if overflow exists after render
-    setTimeout(function() {
-      var inner = document.getElementById('tagChips');
-      if (inner.scrollHeight <= chipsWrapper.clientHeight + 4) {
-        expandBtn.style.display = 'none';
-      }
-    }, 50);
-
-    expandBtn.addEventListener('click', function() {
-      collapsed = !collapsed;
-      if (collapsed) {
-        chipsWrapper.classList.remove('expanded');
-        expandBtn.textContent = 'Show all tags (' + chips.length + ')';
-      } else {
-        chipsWrapper.classList.add('expanded');
-        expandBtn.textContent = 'Collapse';
-      }
-    });
-  }
 })();
 </script>

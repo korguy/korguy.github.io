@@ -1,0 +1,10 @@
+<% var external = /^https?:/.test(item.url); %>
+<a class="card" href="<%- external ? item.url : url_for(item.url) %>"<% if (external) { %> target="_blank" rel="noreferrer"<% } %>>
+  <div class="card-media">
+    <img src="<%- url_for(item.image) %>" alt="" loading="lazy">
+    <span class="card-year glass"><%= item.year %></span>
+  </div>
+  <h2 class="card-title"><%= item.title %></h2>
+  <p class="card-authors"><%- item.authors.map(function (a) { return a === config.author ? '<strong>' + a + '</strong>' : a; }).join(', ') %></p>
+  <p class="card-venue"><%= item.venue %></p>
+</a>

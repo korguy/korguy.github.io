@@ -1,20 +1,9 @@
-<div class="row mt-4 mb-2">
-  <div class="col-md-6 tengah-kiri">
-    <p class="pb-0 mb-2">Exploring the future, one post at a time.
-      <!-- <a href="https://hexo.io/" target="_blank" style="text-decoration: none;" rel="noreferrer">
-
-        <svg style="width: 15px; fill: #03adfc" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <title>Hexo.js</title>
-          <path
-            d="M12 .007L1.57 6.056V18.05L12 23.995l10.43-6.049V5.952L12 .007zm4.798 17.105l-.939.521-.939-.521V12.94H9.08v4.172l-.94.521-.938-.521V6.89l.939-.521.939.521v4.172h5.84V6.89l.94-.521.938.521v10.222z" />
-        </svg>
-      </a>
-      di <a href="<%- theme.place %>" target="_blank" rel="noreferrer">Kendal</a>. -->
-    </p>
-
-  </div>
-  <div class="col-md-6 tengah-kanan">
-    &copy; <%= new Date().getFullYear() %> Hyun Kang
-  </div>
-</div>
-  <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->
+<footer class="site-footer container">
+  <p class="footer-copy">&copy; <%= new Date().getFullYear() %> <%= config.author %></p>
+  <ul class="footer-links">
+    <li><a href="<%- theme.github %>" target="_blank" rel="noreferrer">GitHub</a></li>
+    <li><a href="<%- theme.linkedin %>" target="_blank" rel="noreferrer">LinkedIn</a></li>
+    <li><a href="<%- theme.google %>" target="_blank" rel="noreferrer">Google Scholar</a></li>
+    <li><a href="/file/CV_Hyun_Kang.pdf" target="_blank" rel="noreferrer">CV</a></li>
+  </ul>
+</footer>

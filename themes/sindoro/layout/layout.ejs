@@ -2,18 +2,15 @@
 <html lang="en">
 
 <head>
-
-  <!-- Basic Page Needs
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <%
   if (!config.author) {
     config.author = ""
   }
 
-  var title = title = config.title;
+  var title = config.title;
   if (is_archive()){
     title = 'Archives - ' + config.author;
   } else if (is_post()){
@@ -23,203 +20,172 @@
   } else if (is_tag()){
     title = 'Tags ' + page.tag;
   }
+
+  var description = config.description;
+  if (is_page()) {
+    description = page.description;
+  } else if (page.content) {
+    description = strip_html(page.content).replace(/\n/g, " ").replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+  }
   %>
   <title><%= title %></title>
-
-  <% if (is_page()){ %>
-  <meta name="description" content="<%= page.description %>">
-  <% } else if (page.content){ %>
-  <meta name="description" content="<%= strip_html(page.content).replace(/\n/g, " ").replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
-  <% } else { %>
-  <meta name="description" content="<%= config.description %>">
-  <% } %>
-
+  <meta name="description" content="<%= description %>">
   <meta name="author" content="<%- config.author %>">
 
   <% if (is_post()) { %>
-  <meta property="og:image" content="<%-config.url + "/" + page.path + page.thumbnail %>">
+  <meta property="og:image" content="<%- config.url + "/" + page.path + page.thumbnail %>">
+  <meta name="twitter:image" content="<%- config.url + "/" + page.path + page.thumbnail %>">
   <% } %>
-
   <meta property="og:site_name" content="<%= config.title %>" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="<%= title %>" />
-  <% if (is_page()){ %>
-  <meta property="og:description" content="<%= page.description %>">
-  <% } else if (page.content){ %>
-  <meta property="og:description" content="<%= strip_html(page.content).replace(/\n/g, " ").replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
-  <% } else { %>
-  <meta property="og:description" content="<%= config.description %>">
-  <% } %>
+  <meta property="og:description" content="<%= description %>">
   <meta property="og:url" content="<%= url %>" />
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="<%= title %>">
-  <% if (is_page()){ %>
-  <meta name="twitter:description" content="<%= page.description %>">
-  <% } else if (page.content){ %>
-  <meta name="twitter:description" content="<%= strip_html(page.content).replace(/\n/g, " ").replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150) %>">
-  <% } else { %>
-  <meta name="twitter:description" content="<%= config.description %>">
-  <% } %>
-
-  <% if (is_post()) { %>
-  <meta name="twitter:image" content="<%-config.url + "/" + page.path + page.thumbnail %>">
-  <% } %>
+  <meta name="twitter:description" content="<%= description %>">
   <meta name="twitter:url" content="<%= url %>" />
 
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
 
-  <meta name="theme-color" content="#fdfdff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#222831" media="(prefers-color-scheme: dark)">
+  <script>
+    // Resolve the theme before first paint: saved choice wins, otherwise follow the OS.
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('preferredTheme'); } catch (e) {}
+      var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    })();
+  </script>
 
-  <!-- FONT
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <!-- CSS
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <%- css('css/dark.css') %>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <%- css('css/custom.css') %>
-  <%- css('css/prism-dark.css') %>
-  <%- css('css/prism-line-numbers.css') %>
-
-
-  <!-- KaTeX -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <%- css('css/style.css') %>
+  <%- css('css/prism.css') %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
 
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/png" href="<%- theme.favicon %>">
-
 </head>
 
-<body>
-  <%- partial('partial/header') %>
-  <div class="container-md mt-4 trans">
-    <div class="row jarak">
-      <div class="col">
+<body<% if (is_home()) { %> class="is-home"<% } %>>
+  <main class="site-main">
+    <%- body %>
+  </main>
 
-        <%- body %>
-        <%- partial('partial/footer') %>
-      </div>
+  <% if (!is_home()) { %><%- partial('partial/footer') %><% } %>
 
-    </div>
+  <%- partial('partial/dock') %>
 
-  </div>
-
-  <!-- Search Modal -->
-  <div id="search-modal" class="search-modal" style="display:none;">
-    <div class="search-backdrop" onclick="closeSearch()"></div>
-    <div class="search-content">
-      <div class="search-header">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="search-input" type="text" placeholder="Search posts, projects, pages..." autocomplete="off">
-        <kbd class="search-esc" onclick="closeSearch()">ESC</kbd>
+  <div id="search" class="search" hidden>
+    <div class="search-backdrop" data-search-close></div>
+    <div class="search-panel glass" role="dialog" aria-modal="true" aria-label="Search">
+      <div class="search-field">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="search-input" type="text" placeholder="Search posts, projects, pages" autocomplete="off" spellcheck="false">
+        <kbd data-search-close>esc</kbd>
       </div>
       <div id="search-results" class="search-results"></div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  <!-- Holds the per-element SVG refraction filters built by js/liquid-glass.js -->
+  <svg class="glass-defs" aria-hidden="true" focusable="false"><defs id="glass-defs"></defs></svg>
 
   <script>
+  // Theme toggle
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('preferredTheme', next); } catch (e) {}
+    });
+  });
+
   // Copy button for code blocks
-  document.querySelectorAll('pre[class*="language-"]').forEach(function(pre) {
+  document.querySelectorAll('pre[class*="language-"]').forEach(function (pre) {
     var btn = document.createElement('button');
-    btn.className = 'code-copy-btn';
+    btn.className = 'code-copy glass';
+    btn.type = 'button';
     btn.textContent = 'Copy';
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function () {
       var code = pre.querySelector('code');
-      var text = code ? code.textContent : pre.textContent;
-      navigator.clipboard.writeText(text).then(function() {
-        btn.textContent = 'Copied!';
-        btn.classList.add('copied');
-        setTimeout(function() {
-          btn.textContent = 'Copy';
-          btn.classList.remove('copied');
-        }, 2000);
+      navigator.clipboard.writeText(code ? code.textContent : pre.textContent).then(function () {
+        btn.textContent = 'Copied';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
       });
     });
-    pre.style.position = 'relative';
     pre.appendChild(btn);
   });
 
   // Search
-  var searchData = null;
-  function openSearch() {
-    var modal = document.getElementById('search-modal');
-    modal.style.display = 'flex';
-    setTimeout(function() { modal.classList.add('active'); }, 10);
-    document.getElementById('search-input').value = '';
-    document.getElementById('search-results').innerHTML = '<div class="search-hint">Type to search...</div>';
-    setTimeout(function() { document.getElementById('search-input').focus(); }, 100);
-    if (!searchData) {
-      fetch('/search.json').then(function(r) { return r.json(); }).then(function(data) {
-        searchData = data;
-      });
-    }
-  }
-  function closeSearch() {
-    var modal = document.getElementById('search-modal');
-    modal.classList.remove('active');
-    setTimeout(function() { modal.style.display = 'none'; }, 200);
-  }
-  document.addEventListener('keydown', function(e) {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      openSearch();
-    }
-    if (e.key === '/' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
-      e.preventDefault();
-      openSearch();
-    }
-    if (e.key === 'Escape') {
-      closeSearch();
-    }
-  });
-  document.getElementById('search-input').addEventListener('input', function() {
-    var query = this.value.trim().toLowerCase();
+  (function () {
+    var modal = document.getElementById('search');
+    var input = document.getElementById('search-input');
     var results = document.getElementById('search-results');
-    if (!query) {
-      results.innerHTML = '<div class="search-hint">Type to search...</div>';
-      return;
+    var searchData = null;
+
+    function hint(text) { results.innerHTML = '<div class="search-hint">' + text + '</div>'; }
+
+    function open() {
+      modal.hidden = false;
+      input.value = '';
+      hint('Type to search');
+      input.focus();
+      if (!searchData) {
+        fetch('<%- url_for(config.search.path) %>').then(function (r) { return r.json(); }).then(function (data) {
+          searchData = data;
+          input.dispatchEvent(new Event('input'));
+        });
+      }
     }
-    if (!searchData) {
-      results.innerHTML = '<div class="search-hint">Loading...</div>';
-      return;
-    }
-    var matches = [];
-    searchData.forEach(function(item) {
-      var titleMatch = item.title && item.title.toLowerCase().indexOf(query) !== -1;
-      var contentText = (item.content || '').replace(/<[^>]*>/g, '');
-      var contentMatch = contentText.toLowerCase().indexOf(query) !== -1;
-      if (titleMatch || contentMatch) {
+    function close() { modal.hidden = true; }
+    window.openSearch = open;
+
+    document.querySelectorAll('[data-search-open]').forEach(function (el) { el.addEventListener('click', open); });
+    modal.querySelectorAll('[data-search-close]').forEach(function (el) { el.addEventListener('click', close); });
+
+    document.addEventListener('keydown', function (e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); open(); }
+      else if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) { e.preventDefault(); open(); }
+      else if (e.key === 'Escape' && !modal.hidden) { close(); }
+    });
+
+    input.addEventListener('input', function () {
+      var query = this.value.trim().toLowerCase();
+      if (!query) return hint('Type to search');
+      if (!searchData) return hint('Loading…');
+      var matches = [];
+      searchData.forEach(function (item) {
+        var titleMatch = item.title && item.title.toLowerCase().indexOf(query) !== -1;
+        var text = (item.content || '').replace(/<[^>]*>/g, '');
+        var idx = text.toLowerCase().indexOf(query);
+        if (!titleMatch && idx === -1) return;
         var snippet = '';
-        if (contentMatch) {
-          var idx = contentText.toLowerCase().indexOf(query);
+        if (idx !== -1) {
           var start = Math.max(0, idx - 60);
-          var end = Math.min(contentText.length, idx + query.length + 60);
-          snippet = (start > 0 ? '...' : '') + contentText.substring(start, end) + (end < contentText.length ? '...' : '');
+          var end = Math.min(text.length, idx + query.length + 60);
+          snippet = (start > 0 ? '…' : '') + text.substring(start, end) + (end < text.length ? '…' : '');
           var re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
           snippet = snippet.replace(re, '<mark>$1</mark>');
         }
         matches.push({ title: item.title, url: item.url, snippet: snippet });
-      }
-    });
-    if (matches.length === 0) {
-      results.innerHTML = '<div class="search-hint">No results found.</div>';
-    } else {
-      results.innerHTML = matches.slice(0, 10).map(function(m) {
-        return '<a href="' + m.url + '" class="search-result-item">' +
+      });
+      if (!matches.length) return hint('No results');
+      results.innerHTML = matches.slice(0, 10).map(function (m) {
+        return '<a href="' + m.url + '" class="search-result">' +
           '<div class="search-result-title">' + m.title + '</div>' +
           (m.snippet ? '<div class="search-result-snippet">' + m.snippet + '</div>' : '') +
           '</a>';
       }).join('');
-    }
-  });
-
-  // KaTeX auto-render
+    });
+  })();
   </script>
+  <%- js('js/liquid-glass.js') %>
+
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
     onload="renderMathInElement(document.body, {
@@ -229,7 +195,6 @@
       ],
       throwOnError: false
     });"></script>
-
 </body>
 
 </html>

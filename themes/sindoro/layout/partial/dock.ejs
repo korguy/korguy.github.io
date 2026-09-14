@@ -1,0 +1,23 @@
+<%
+  function isActive(url) {
+    var p = url.replace(/^\//, '');
+    if (p === '') return is_home();
+    if (p === 'archives' && (is_post() || is_tag() || is_archive())) return true;
+    return page.path.indexOf(p) === 0;
+  }
+  var links = [{ name: 'Home', url: '/' }];
+  for (var name in theme.menu) links.push({ name: name, url: theme.menu[name] });
+%>
+<nav class="dock glass" aria-label="Primary">
+  <% links.forEach(function (link) { %>
+  <a class="dock-link<%= isActive(link.url) ? ' is-active' : '' %>" href="<%- url_for(link.url) %>"<% if (isActive(link.url)) { %> aria-current="page"<% } %>><%- link.name %></a>
+  <% }) %>
+  <span class="dock-sep" aria-hidden="true"></span>
+  <button class="dock-icon" type="button" data-search-open aria-label="Search" title="Search (⌘K)">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7.5"/><line x1="20.5" y1="20.5" x2="16.3" y2="16.3"/></svg>
+  </button>
+  <button class="dock-icon" type="button" data-theme-toggle aria-label="Toggle dark mode">
+    <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  </button>
+</nav>
